@@ -2,6 +2,10 @@ os: linux
 
 dist: xenial
 
+branches:
+  only:
+    - master
+
 language: python
 
 python:

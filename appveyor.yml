@@ -3,21 +3,17 @@
 # and Michael Sverdlik's appveyor-utils (https://github.com/cloudify-cosmo/appveyor-utils)
 version: '{branch}-{build}'
 
+branches:
+  only:
+    - pymssql-test
+
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
 # Match travis
 clone_depth: 50
 
-services:
-  - mysql
-  - postgresql
-
 environment:
-  MYSQL_PWD: "Password12!"
-  PGUSER: "postgres"
-  PGPASSWORD: "Password12!"
-
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
@@ -51,9 +47,6 @@ install:
       Set-Service SQLBrowser -StartupType Manual
       Start-Service SQLBrowser
       Start-Service "MSSQL`$$instanceName"
-  # List ODBC drivers
-  - ps: Get-OdbcDriver -Platform 32-bit | Select-Object -ExpandProperty Name
-  - ps: Get-OdbcDriver -Platform 64-bit | Select-Object -ExpandProperty Name
   # Ensure we use the right python version
   - "SET PATH=%PYTHON_HOME%;%PYTHON_HOME%\\Scripts;C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin;C:\\Program Files\\PostgreSQL\\9.5\\bin;%PATH%"
   - "SET TOXPYTHON=%PYTHON_HOME%\\python.exe"
