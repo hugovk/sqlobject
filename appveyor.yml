@@ -3,21 +3,17 @@
 # and Michael Sverdlik's appveyor-utils (https://github.com/cloudify-cosmo/appveyor-utils)
 version: '{branch}-{build}'
 
+branches:
+  only:
+    - pyodbc-test
+
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
 
 # Match travis
 clone_depth: 50
 
-services:
-  - mysql
-  - postgresql
-
 environment:
-  MYSQL_PWD: "Password12!"
-  PGUSER: "postgres"
-  PGPASSWORD: "Password12!"
-
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
@@ -66,7 +62,7 @@ install:
 build: false
 
 test_script:
-  - "%CMD_IN_ENV% devscripts\\tox-select-envs %TESTS%"
+  - "%CMD_IN_ENV% tox -e %TESTS%"
 
 after_test:
   - "remove-old-files.py -o 180 %LOCALAPPDATA%\\pip\\Cache"
