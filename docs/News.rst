@@ -16,10 +16,11 @@ Features
 CI
 --
 
+* GitHub Actions.
+
 * Stop testing at Travis CI.
 
 * Stop testing at AppVeyor.
-
 
 SQLObject 3.9.1
 ===============
